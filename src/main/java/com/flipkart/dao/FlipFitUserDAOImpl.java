@@ -1,9 +1,6 @@
 package com.flipkart.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.Random;
 
 import com.flipkart.constant.DBConstants;
@@ -13,33 +10,6 @@ import com.flipkart.model.FlipFitUser;
 
 public class FlipFitUserDAOImpl implements IFlipFitUserDAO {
     Random rand = new Random();
-    //
-    // public static void main(String[] args) {
-    // FlipFitUser FFU = new FlipFitUser();
-    //
-    // FFU.setUserName("PP");
-    // FFU.setPassword("pp2");
-    // FFU.setRoleID(1);
-    // FFU.setEmailID("pp@mail");
-    // FFU.setPhoneNumber("9800756987");
-    //
-    // FlipFitUserDAOImpl FFUDAO = new FlipFitUserDAOImpl();
-    // FFUDAO.addUser(FFU);
-    //
-    // FlipFitUser FFU1 = new FlipFitUser();
-    //
-    // FFU.setUserName("GG");
-    // FFU.setPassword("gg2");
-    // FFU.setRoleID(0);
-    // FFU.setEmailID("gg@mail");
-    // FFU.setPhoneNumber("9899756987");
-    //
-    // FFUDAO.changeUser(FFU);
-    // FlipFitUser FFU2 = FFUDAO.getUser(644);
-    // System.out.println(FFU2.getEmailID());
-    // System.out.println(FFU2.getPhoneNumber());
-    //
-    // }
 
     @Override
     public FlipFitGymCustomer login(String emailID, String password) {
@@ -48,25 +18,41 @@ public class FlipFitUserDAOImpl implements IFlipFitUserDAO {
             Connection con = DriverManager.getConnection(
                     DBConstants.DB_URL, DBConstants.USER, DBConstants.PASSWORD);
 
-            PreparedStatement stmt = con.prepareStatement("SELECT * from User where emailID=? and password=?");
+
+            PreparedStatement stmt = con.prepareStatement("SELECT * from FlipFitSchema.User where emailID =? and password =?");
+
             stmt.setString(1, emailID);
             stmt.setString(2, password);
+
+
             ResultSet rsUser = stmt.executeQuery();
+//            System.out.println(rsUser.getString(4));
+//            System.out.println(rsUser.getString(1));
+
+
             if (rsUser.next()) {
                 stmt = con.prepareStatement("SELECT * from Customer where customerID = ?");
-                stmt.setInt(1, rsUser.getInt("customerID"));
+                int userid = rsUser.getInt("userID");
+                stmt.setInt(1, userid);
                 ResultSet rsCustomer = stmt.executeQuery();
+
                 FlipFitGymCustomer flipFitGymCustomer = new FlipFitGymCustomer();
-                flipFitGymCustomer.setCity(rsCustomer.getString("city"));
-                flipFitGymCustomer.setEmailID(rsUser.getString("emailID"));
-                flipFitGymCustomer.setPinCode(rsCustomer.getString("pinCode"));
-                flipFitGymCustomer.setPassword(rsUser.getString("password"));
-                flipFitGymCustomer.setPhoneNumber(rsUser.getString("phoneNumber"));
-                flipFitGymCustomer.setUserName(rsUser.getString("userName"));
+
+                if (rsCustomer.next()) {
+                    flipFitGymCustomer.setCity(rsCustomer.getString("city"));
+                    flipFitGymCustomer.setEmailID(emailID);
+                    flipFitGymCustomer.setPinCode(rsCustomer.getString("pinCode"));
+                    flipFitGymCustomer.setPassword(password);
+                    flipFitGymCustomer.setPhoneNumber(rsUser.getString("phoneNumber"));
+                    flipFitGymCustomer.setUserName(rsUser.getString("userName"));
+                    flipFitGymCustomer.setUserId(rsUser.getInt("userID"));
+                }
+
                 return flipFitGymCustomer;
             }
             con.close();
         } catch (Exception e) {
+            System.out.println("Vasu bad");
             System.out.println(e.getMessage());
         }
         return null;

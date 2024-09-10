@@ -8,7 +8,7 @@ public class GetConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/FlipFitSchema", "root",
-                    "Radha84@cos");
+                    "12345678");
         } catch (Exception e) {
             System.out.println(e);
             return null;
