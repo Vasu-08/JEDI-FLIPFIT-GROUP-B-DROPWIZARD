@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.StreamingOutput;
 
 import com.flipkart.business.FlipFitGymCustomerBusiness;
 import com.flipkart.business.interfaces.IFlipFitGymCustomer;
@@ -20,12 +21,11 @@ import com.flipkart.model.FlipFitGymCustomer;
 import com.flipkart.model.FlipFitUser;
 
 @Path("/customer")
-@Produces(MediaType.APPLICATION_JSON)
-
+@Produces(MediaType.APPLICATION_JSON)  // All methods produce JSON by default
 public class CustomerController {
+
     private final IFlipFitGymCustomer flipFitCustomerBusiness;
     private FlipFitGymCustomer flipFitGymCustomer;
-    private FlipFitUser flipFitUser;
 
     @Inject
     public CustomerController(FlipFitGymCustomerBusiness flipFitGymCustomerService) {
@@ -34,16 +34,18 @@ public class CustomerController {
 
     @POST
     @Path("/login")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)  // Expects JSON data in request body
     public FlipFitGymCustomer login(FlipFitUser user) {
         FlipFitGymCustomer customer = flipFitCustomerBusiness.login(user);
         this.flipFitGymCustomer = customer;
+
+        System.out.println("Customer Logged IN");
         return flipFitGymCustomer;
     }
 
     @POST
     @Path("/register")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)  // Expects JSON data in request body
     public FlipFitGymCustomer register(FlipFitGymCustomer flipFitGymCustomer) {
         FlipFitGymCustomer customer = flipFitCustomerBusiness.registerCustomer(flipFitGymCustomer);
         this.flipFitGymCustomer = customer;
@@ -52,21 +54,19 @@ public class CustomerController {
 
     @GET
     @Path("/viewBookings")
-    @Consumes(MediaType.APPLICATION_JSON)
     public List<FlipFitBooking> viewBookings() {
         return flipFitCustomerBusiness.viewBookedSlots(flipFitGymCustomer.getUserId());
     }
 
     @GET
     @Path("/viewCentres")
-    @Consumes(MediaType.APPLICATION_JSON)
     public List<FlipFitGymCentre> viewCentres() {
         return flipFitCustomerBusiness.viewCentres();
     }
 
     @PUT
     @Path("/editDetails")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)  // Expects JSON data in request body
     public FlipFitGymCustomer editDetails(FlipFitGymCustomer flipFitGymCustomer) throws InvalidChoiceException {
         return flipFitCustomerBusiness.editDetails(flipFitGymCustomer);
     }

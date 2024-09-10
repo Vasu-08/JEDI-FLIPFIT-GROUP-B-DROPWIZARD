@@ -71,8 +71,8 @@ public class FlipFitGymOwnerBusiness implements IFlipFitGymOwner {
         user.setEmailID(GymOwner.getEmailID());
         user.setPhoneNumber(GymOwner.getPhoneNumber());
         user.setUserName(GymOwner.getUserName());
-        user.setRoleID(2);
-        GymOwner.setRole(2);
+        user.setRoleID(1);
+        GymOwner.setRole(1);
 
         user = flipFitGymOwnerDAO.addUser(user);
         return flipFitGymOwnerDAO.addGymOwner(GymOwner, user);
@@ -81,7 +81,7 @@ public class FlipFitGymOwnerBusiness implements IFlipFitGymOwner {
     @Override
     public FlipFitUser login(FlipFitUser flipFitUser) {
         FlipFitUserDAOImpl userDAO = new FlipFitUserDAOImpl();
-        flipFitUser.setRoleID(2);
+        flipFitUser.setRoleID(1);
         userDAO.login(flipFitUser.getEmailID(), flipFitUser.getPassword());
         return flipFitUser;
     }

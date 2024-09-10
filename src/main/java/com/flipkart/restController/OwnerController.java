@@ -1,5 +1,6 @@
 package com.flipkart.restController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -57,21 +58,14 @@ public class OwnerController {
 
     @GET
     @Path("/viewCentres")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<FlipFitGymCentre> viewCentres(FlipFitGymOwner owner) {
+        System.out.println("hi");
+//        return new ArrayList<FlipFitGymCentre>();
         return flipFitGymOwnerBusiness.viewCentres(owner);
     }
 
-    // @GET
-    // @Path("/viewCustomers/{centreID}")
-    // @Consumes(MediaType.APPLICATION_JSON)
-    // public List<FlipFitUser> viewFlipFitCustomers(@PathParam("centreID") int
-    // centreID){
-    // System.out.println("centreID: " + centreID);
-    // FlipFitGymCentre flipFitGymCentre = new FlipFitGymCentre();
-    // flipFitGymCentre.setCentreID(centreID);
-    // return flipFitGymOwnerBusiness.viewFlipFitCustomers(flipFitGymCentre);
-    // }
+
     @PUT
     @Path("/editDetails")
     @Consumes(MediaType.APPLICATION_JSON)
