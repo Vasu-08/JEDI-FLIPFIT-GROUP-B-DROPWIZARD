@@ -11,7 +11,6 @@ import com.flipkart.exceptions.InvalidChoiceException;
 import com.flipkart.model.FlipFitBooking;
 import com.flipkart.model.FlipFitGymCentre;
 import com.flipkart.model.FlipFitGymCustomer;
-import com.flipkart.model.FlipFitSlots;
 import com.flipkart.model.FlipFitUser;
 
 public class FlipFitGymCustomerBusiness implements IFlipFitGymCustomer {
@@ -25,13 +24,16 @@ public class FlipFitGymCustomerBusiness implements IFlipFitGymCustomer {
     public List<FlipFitBooking> viewBookedSlots(int userId) {
 
         System.out.println("Viewing booked slots:> ");
+
         FlipFitBookingDAOImpl bookingDAO = new FlipFitBookingDAOImpl();
         FlipFitSlotDAOImpl slotDAO = new FlipFitSlotDAOImpl();
+
         List<FlipFitBooking> bookingsList = bookingDAO.getAllBookings(userId);
+
         for (FlipFitBooking booking : bookingsList) {
-            FlipFitSlots slotdetails = slotDAO.getSlotDetailsById(booking.getSlotId());
-            System.out.println("Booking ID: " + booking.getBookingId() + "Slot timing " + slotdetails.getSlotTime());
+            System.out.println("Booking ID: " + booking.getBookingId() + "Slot id " + booking.getSlotId() + "Slot timing " + booking.getSlotTime());
         }
+
         return bookingsList;
     }
 

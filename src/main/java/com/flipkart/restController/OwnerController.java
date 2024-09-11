@@ -1,6 +1,5 @@
 package com.flipkart.restController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,7 +43,6 @@ public class OwnerController {
     @Path("/addCentre")
     @Consumes(MediaType.APPLICATION_JSON)
     public FlipFitGymCentre addGymCentre(FlipFitGymCentre flipFitGymCentre) throws InvalidChoiceException {
-        // flipFitGymCentre.setOwnerID(flipFitOwner.getUserId());
         return flipFitGymOwnerBusiness.addCentre(flipFitGymCentre);
     }
 
@@ -52,7 +50,6 @@ public class OwnerController {
     @Path("/addSlot")
     @Consumes(MediaType.APPLICATION_JSON)
     public FlipFitSlots addSlot(FlipFitSlots flipFitSlot) throws InvalidChoiceException {
-        // flipFitGymCentre.setOwnerID(flipFitOwner.getUserId());
         return flipFitGymOwnerBusiness.addSlot(flipFitSlot);
     }
 
@@ -60,8 +57,6 @@ public class OwnerController {
     @Path("/viewCentres")
     @Produces(MediaType.APPLICATION_JSON)
     public List<FlipFitGymCentre> viewCentres(FlipFitGymOwner owner) {
-        System.out.println("hi");
-//        return new ArrayList<FlipFitGymCentre>();
         return flipFitGymOwnerBusiness.viewCentres(owner);
     }
 

@@ -63,13 +63,16 @@ public class FlipFitSlotDAOImpl implements IFlipFitSlotDAO {
     @Override
     public FlipFitSlots addSlot(FlipFitSlots slot) {
         String sql = "INSERT INTO Slots (centreID, slotTime, seatsAvailable) VALUES (?, ?, ?)";
+        System.out.println(slot.getCentreId());
         try (Connection conn = GetConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             stmt.setInt(1, slot.getCentreId());
             stmt.setInt(2, slot.getSlotTime());
             stmt.setInt(3, slot.getSeatsAvailable());
 
             int affectedRows = stmt.executeUpdate(); // Use executeUpdate() for INSERT
+
             if (affectedRows == 0) {
                 throw new SQLException("Creating slot failed, no rows affected.");
             }

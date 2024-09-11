@@ -119,12 +119,16 @@ public class FlipFitBookingDAOImpl implements IFlipFitBookingDAO {
             while (rs.next()) {
                 int UserId = rs.getInt("userID");
                 int slotId = rs.getInt("slotID");
+                int bookingId = rs.getInt("bookingID");
+                int time = rs.getInt("slotTime");
                 boolean isdeleted = rs.getBoolean("isdeleted");
 
                 FlipFitBooking booking = new FlipFitBooking();
                 booking.setUserId(UserId);
                 booking.setSlotId(slotId);
                 booking.setIsdeleted(isdeleted);
+                booking.setBookingId(bookingId);
+                booking.setSlotTime(time);
 
                 bookings.add(booking);
             }

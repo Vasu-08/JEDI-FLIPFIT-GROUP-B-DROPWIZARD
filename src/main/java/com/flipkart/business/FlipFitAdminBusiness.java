@@ -18,7 +18,6 @@ public class FlipFitAdminBusiness implements IFlipFitAdmin {
     }
 
     public boolean adminLogin(FlipFitAdmin flipFitAdmin) {
-        System.out.println("AdminUserBusiness.adminLogin");
         return flipFitAdminDAOImpl.adminLogin(flipFitAdmin);
     }
 

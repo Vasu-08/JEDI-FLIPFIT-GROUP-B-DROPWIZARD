@@ -19,6 +19,7 @@ public class FlipFitGymCustomerDAOImpl implements IFlipFitGymCustomerDAO {
 
     public List<FlipFitSlots> viewBookedSlots(int userID) {
         List<FlipFitSlots> bookedSlots = new ArrayList<>();
+        
         String sql = "SELECT * FROM Booking WHERE userID = ? and isDeleted=FALSE";
 
         try (Connection conn = GetConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -28,6 +29,7 @@ public class FlipFitGymCustomerDAOImpl implements IFlipFitGymCustomerDAO {
             while (rs.next()) {
                 FlipFitSlots slot = new FlipFitSlots();
                 slot.setSlotId(rs.getInt("slotID"));
+                slot.setSlotTime(rs.getInt("slotTime"));
                 bookedSlots.add(slot);
             }
         } catch (SQLException e) {
@@ -61,7 +63,7 @@ public class FlipFitGymCustomerDAOImpl implements IFlipFitGymCustomerDAO {
 
     public List<FlipFitGymCentre> viewCentres() {
         List<FlipFitGymCentre> gymcentres = new ArrayList<>();
-        String sql = "SELECT centreID, ownerID, capacity FROM GymCentre";
+        String sql = "SELECT centreID, ownerID, capacity, city, state, pincode, approved FROM GymCentre";
         try (Connection conn = GetConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -69,6 +71,10 @@ public class FlipFitGymCustomerDAOImpl implements IFlipFitGymCustomerDAO {
                 gymcentre.setCentreID(rs.getInt("centreID"));
                 gymcentre.setOwnerID(rs.getInt("ownerID"));
                 gymcentre.setCapacity(rs.getInt("capacity"));
+                gymcentre.setCity(rs.getString("city"));
+                gymcentre.setPincode(rs.getString("pincode"));
+                gymcentre.setState(rs.getString("state"));
+                gymcentre.setApproved(rs.getBoolean("approved"));
                 gymcentres.add(gymcentre);
             }
         } catch (SQLException e) {
